@@ -12,8 +12,7 @@ import com.example.si_assignment.data.model.team.player.PlayerDetail
 import com.example.si_assignment.databinding.ActivityPlayerDetailBinding
 import com.example.si_assignment.ui.adapter.PlayerAdapter
 import com.example.si_assignment.ui.adapter.SpinnerAdapter
-import com.example.si_assignment.ui.viewmodel.PlayerDetailViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import com.example.si_assignment.util.AppConstant
 import kotlin.properties.Delegates
 
 class PlayerDetail : AppCompatActivity(), SpinnerAdapter.OnItemSelect {
@@ -31,8 +30,8 @@ class PlayerDetail : AppCompatActivity(), SpinnerAdapter.OnItemSelect {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayerDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        selectTeam = intent.getParcelableExtra("SelectedTeam")
-        odiMatch = intent.getParcelableExtra("ODI_Match")
+        selectTeam = intent.getParcelableExtra(AppConstant.SELECTED_TEAM)
+        odiMatch = intent.getParcelableExtra(AppConstant.ODI_MATCH_DATA)
 
         setSpinnerAdapter()
         setPlayerAdapter()
@@ -62,8 +61,8 @@ class PlayerDetail : AppCompatActivity(), SpinnerAdapter.OnItemSelect {
         }
 
         val list: List<SpinnerModel> = arrayListOf(
-            SpinnerModel(0, null), SpinnerModel(homeTeamId, homeTeam),
-            SpinnerModel (awayTeamId, awayTeam)
+            SpinnerModel(0, "All"), SpinnerModel(homeTeamId, homeTeam.nameShort),
+            SpinnerModel (awayTeamId, awayTeam.nameShort)
         )
 
         val spinnerAdapter = SpinnerAdapter(this, list, this)

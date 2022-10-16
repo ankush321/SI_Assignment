@@ -12,6 +12,7 @@ import com.example.si_assignment.data.model.match.Match
 import com.example.si_assignment.data.model.team.Team
 import com.example.si_assignment.databinding.ActivityMainBinding
 import com.example.si_assignment.ui.viewmodel.MatchViewModel
+import com.example.si_assignment.util.AppConstant
 import com.example.si_assignment.util.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,16 +35,16 @@ class MainActivity : AppCompatActivity() {
         binding.homeTeam.setOnClickListener {
             val team: Team = odiMatch.teams[odiMatch.matchDetail.teamHome.toInt()]!!
             val intent = Intent(this, PlayerDetail::class.java)
-            intent.putExtra("SelectedTeam", team)
-            intent.putExtra("ODI_Match", odiMatch)
+            intent.putExtra(AppConstant.SELECTED_TEAM, team)
+            intent.putExtra(AppConstant.ODI_MATCH_DATA, odiMatch)
             startActivity(intent)
         }
 
         binding.teamAway.setOnClickListener {
             val team: Team = odiMatch.teams[odiMatch.matchDetail.teamAway.toInt()]!!
             val intent = Intent(this, PlayerDetail::class.java)
-            intent.putExtra("SelectedTeam", team)
-            intent.putExtra("ODI_Match", odiMatch)
+            intent.putExtra(AppConstant.SELECTED_TEAM, team)
+            intent.putExtra(AppConstant.ODI_MATCH_DATA, odiMatch)
             startActivity(intent)
         }
     }

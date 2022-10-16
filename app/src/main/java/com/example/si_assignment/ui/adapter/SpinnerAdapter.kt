@@ -26,10 +26,7 @@ class SpinnerAdapter(context: Context, private val list: List<SpinnerModel>, pri
             view = convertView
             viewHolder = view.tag as ItemHolder
         }
-        if(list[position].teamName == null)
-            viewHolder.teamName.text = "All"
-        else
-            viewHolder.teamName.text = list[position].teamName?.nameShort
+        viewHolder.teamName.text = list[position].teamName
         view.setOnClickListener {
             listener.onClick(list[position].id)
         }
