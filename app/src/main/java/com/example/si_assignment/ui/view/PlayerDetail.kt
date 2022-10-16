@@ -24,6 +24,7 @@ class PlayerDetail : AppCompatActivity(), SpinnerAdapter.OnItemSelect {
     private lateinit var awayTeam: Team
     lateinit var binding: ActivityPlayerDetailBinding
 
+    private var playerList: ArrayList<PlayerDetail> = ArrayList()
     lateinit var adapter: PlayerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +41,7 @@ class PlayerDetail : AppCompatActivity(), SpinnerAdapter.OnItemSelect {
     }
 
     private fun setPlayerAdapter() {
-        val playerList = ArrayList(selectTeam?.players?.values?.sortedBy { it.position })
+        playerList.addAll(ArrayList(selectTeam?.players?.values?.sortedBy { it.position }))
         adapter = PlayerAdapter(this, playerList)
         binding.playerRecView.layoutManager = LinearLayoutManager(this)
         binding.playerRecView.adapter = adapter
@@ -50,7 +51,7 @@ class PlayerDetail : AppCompatActivity(), SpinnerAdapter.OnItemSelect {
         val matchDetails: MatchDetails
 
         var homeTeamId by Delegates.notNull<Int>()
-        var awayTeamId: Int
+        var awayTeamId by Delegates.notNull<Int>()
         odiMatch?.let {
             it
             matchDetails = it.matchDetail
@@ -62,7 +63,7 @@ class PlayerDetail : AppCompatActivity(), SpinnerAdapter.OnItemSelect {
 
         val list: List<SpinnerModel> = arrayListOf(
             SpinnerModel(0, null), SpinnerModel(homeTeamId, homeTeam),
-            SpinnerModel (homeTeamId, awayTeam)
+            SpinnerModel (awayTeamId, awayTeam)
         )
 
         val spinnerAdapter = SpinnerAdapter(this, list, this)
@@ -70,14 +71,15 @@ class PlayerDetail : AppCompatActivity(), SpinnerAdapter.OnItemSelect {
     }
 
     override fun onClick(teamId: Int) {
-        val playerList: ArrayList<PlayerDetail>
+        playerList.clear()
+        adapter.notifyDataSetChanged()
         if(teamId == 0){
-            playerList = ArrayList(homeTeam.players.values.sortedBy { it.position })
+            playerList.addAll(ArrayList(homeTeam.players.values.sortedBy { it.position }))
             playerList.addAll(ArrayList(awayTeam.players.values.sortedBy {it.position}))
         }
         else{
-            playerList = ArrayList(odiMatch?.teams?.get(teamId)?.players?.values?.sortedBy { it.position })
+            playerList.addAll(ArrayList(odiMatch?.teams?.get(teamId)?.players?.values?.sortedBy { it.position }))
         }
-        adapter.updateList(playerList)
+        adapter.notifyDataSetChanged()
     }
 }
